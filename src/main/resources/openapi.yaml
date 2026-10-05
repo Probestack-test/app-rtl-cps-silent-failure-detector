@@ -1,0 +1,808 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: reliability@forgesphere.example.com
+    name: ForgeSphere Reliability Engineering
+  description: "Detects services that quietly stop doing their job without throwing\
+    \ \nerrors. Catches the dangerous \"green dashboard, broken service\" scenario\
+    \ \nwhere a background job, queue consumer, or scheduled task silently halts \n\
+    while all health checks continue to pass. Monitors heartbeats, expected \nsignals,\
+    \ and business metrics to surface failures that traditional \nmonitoring misses.\n"
+  title: Silent Failure Detector
+  version: 1.0.0
+servers:
+- description: Production Server
+  url: https://silentfailure.forgesphere.lightning.com/v1
+- description: Local Development Server
+  url: http://localhost:8131/v1
+security:
+- bearerAuth: []
+tags:
+- description: Register and manage silent failure monitors.
+  name: Monitors
+- description: "Detect, acknowledge, and resolve silent failures."
+  name: Silences
+paths:
+  /monitors:
+    post:
+      description: "Defines an expected signal that a service should emit on a regular\
+        \ \ncadence — such as a heartbeat, a queue consumer tick, a scheduled job\
+        \ \ncompletion, or a business metric update. If the signal stops arriving\
+        \ \nwithin the grace period, the monitor fires a silent failure alert.\n"
+      operationId: registerMonitor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/registerMonitor_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Monitor"
+          description: Monitor registered successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Invalid request payload or missing required fields.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: A monitor with this name already exists.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: Register a new silent failure monitor
+      tags:
+      - Monitors
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: Monitors
+  /monitors/{monitorId}:
+    get:
+      description: "Returns the live state of a silent failure monitor — last signal\
+        \ \nreceived, current health, and any active silence detection.\n"
+      operationId: getMonitor
+      parameters:
+      - description: Unique identifier of the monitor.
+        example: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+        explode: false
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Monitor"
+          description: Monitor status retrieved successfully.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Monitor or silence ID not found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: Get the current status of a monitor
+      tags:
+      - Monitors
+      x-accepts: application/json
+      x-tags:
+      - tag: Monitors
+  /silences:
+    get:
+      description: "Returns every silent failure detected across the platform — services\
+        \ \nthat stopped emitting expected signals. Includes duration, severity, \n\
+        and estimated customer impact. This is the \"morning coffee\" view for \n\
+        the on-call engineer.\n"
+      operationId: listSilences
+      parameters:
+      - description: Filter by silence status.
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - DETECTED
+          - ACKNOWLEDGED
+          - RESOLVED
+          - FALSE_POSITIVE
+          type: string
+        style: form
+      - description: Filter by severity.
+        explode: true
+        in: query
+        name: severity
+        required: false
+        schema:
+          enum:
+          - INFO
+          - WARNING
+          - CRITICAL
+          type: string
+        style: form
+      - description: Filter by service name.
+        example: payment-processor
+        explode: true
+        in: query
+        name: serviceName
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter by environment.
+        explode: true
+        in: query
+        name: environment
+        required: false
+        schema:
+          enum:
+          - DEV
+          - STAGING
+          - PRODUCTION
+          type: string
+        style: form
+      - description: Page number (zero-based).
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 0
+          type: integer
+        style: form
+      - description: Number of items per page.
+        explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SilenceList"
+          description: List of detected silences.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Invalid request payload or missing required fields.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: List all detected silent failures
+      tags:
+      - Silences
+      x-accepts: application/json
+      x-tags:
+      - tag: Silences
+  /silences/{silenceId}/acknowledge:
+    post:
+      description: "Updates the state of a detected silence — either mark it as \n\
+        ACKNOWLEDGED (team is investigating) or RESOLVED (issue fixed). \nEvery action\
+        \ is timestamped and recorded for post-incident review.\n"
+      operationId: acknowledgeSilence
+      parameters:
+      - description: Unique identifier of the silence event.
+        example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        explode: false
+        in: path
+        name: silenceId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/acknowledgeSilence_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Silence"
+          description: Silence state updated successfully.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Invalid request payload or missing required fields.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Monitor or silence ID not found.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Silence is not in a state that supports this action.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Internal server error.
+      summary: Acknowledge or resolve a detected silence
+      tags:
+      - Silences
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: Silences
+components:
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Invalid request payload or missing required fields.
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Monitor or silence ID not found.
+    InternalError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Internal server error.
+  schemas:
+    Monitor:
+      example:
+        severity: CRITICAL
+        owner: payments-team
+        monitorId: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+        lifetimeSilencesDetected: 7
+        currentSilenceDurationSeconds: 0
+        monitorName: payment-queue-consumer-heartbeat
+        lastSignalValue: 42.5
+        businessImpact: Payments stop being processed; customers see failures.
+        serviceName: payment-processor
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        environment: PRODUCTION
+        signalType: QUEUE_CONSUMER_TICK
+        expectedIntervalSeconds: 60
+        lastSignalAt: 2000-01-23T04:56:07.000+00:00
+        gracePeriodSeconds: 120
+        notifyChannels:
+        - SLACK
+        - PAGERDUTY
+        status: HEALTHY
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        monitorId:
+          example: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+          format: uuid
+          type: string
+        monitorName:
+          example: payment-queue-consumer-heartbeat
+          type: string
+        serviceName:
+          example: payment-processor
+          type: string
+        environment:
+          enum:
+          - DEV
+          - STAGING
+          - PRODUCTION
+          example: PRODUCTION
+          type: string
+        signalType:
+          enum:
+          - HEARTBEAT
+          - METRIC_UPDATE
+          - LOG_PATTERN
+          - QUEUE_CONSUMER_TICK
+          - SCHEDULED_JOB_COMPLETION
+          - BUSINESS_METRIC
+          - CUSTOM_WEBHOOK
+          example: QUEUE_CONSUMER_TICK
+          type: string
+        expectedIntervalSeconds:
+          example: 60
+          type: integer
+        gracePeriodSeconds:
+          example: 120
+          type: integer
+        severity:
+          enum:
+          - INFO
+          - WARNING
+          - CRITICAL
+          example: CRITICAL
+          type: string
+        status:
+          enum:
+          - HEALTHY
+          - SILENT
+          - DEGRADED
+          - PAUSED
+          - DISABLED
+          example: HEALTHY
+          type: string
+        owner:
+          example: payments-team
+          type: string
+        businessImpact:
+          example: Payments stop being processed; customers see failures.
+          type: string
+        notifyChannels:
+          example:
+          - SLACK
+          - PAGERDUTY
+          items:
+            enum:
+            - EMAIL
+            - SLACK
+            - PAGERDUTY
+            - WEBHOOK
+            type: string
+          type: array
+        lastSignalAt:
+          format: date-time
+          type: string
+        lastSignalValue:
+          example: 42.5
+          type: number
+        currentSilenceDurationSeconds:
+          description: How long the signal has been missing (0 if healthy).
+          example: 0
+          type: integer
+        lifetimeSilencesDetected:
+          example: 7
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - environment
+      - monitorId
+      - monitorName
+      - serviceName
+      - signalType
+      - status
+      type: object
+    Silence:
+      example:
+        severity: CRITICAL
+        reason: reason
+        auditReference: audit://silent-detector/silence-a1b2c3d4
+        monitorId: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+        resolvedAt: 2000-01-23T04:56:07.000+00:00
+        currentSilenceDurationSeconds: 720
+        monitorName: payment-queue-consumer-heartbeat
+        lastSignalValue: 42.5
+        relatedIncidents:
+        - INC-2050
+        resolvedBy: resolvedBy
+        businessImpact: Payments stop being processed; customers see failures.
+        acknowledgedBy: sre.oncall@forgesphere.example.com
+        silenceId: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        serviceName: payment-processor
+        acknowledgedAt: 2000-01-23T04:56:07.000+00:00
+        environment: PRODUCTION
+        probableCause: Consumer pod likely OOMKilled; check pod restart count.
+        rootCause: rootCause
+        expectedIntervalSeconds: 60
+        lastSignalAt: 2000-01-23T04:56:07.000+00:00
+        detectedAt: 2000-01-23T04:56:07.000+00:00
+        estimatedCustomerImpact: Roughly 480 payments/hour not being processed.
+        status: DETECTED
+      properties:
+        silenceId:
+          example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+          format: uuid
+          type: string
+        monitorId:
+          example: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+          format: uuid
+          type: string
+        monitorName:
+          example: payment-queue-consumer-heartbeat
+          type: string
+        serviceName:
+          example: payment-processor
+          type: string
+        environment:
+          enum:
+          - DEV
+          - STAGING
+          - PRODUCTION
+          example: PRODUCTION
+          type: string
+        status:
+          enum:
+          - DETECTED
+          - ACKNOWLEDGED
+          - RESOLVED
+          - FALSE_POSITIVE
+          example: DETECTED
+          type: string
+        severity:
+          enum:
+          - INFO
+          - WARNING
+          - CRITICAL
+          example: CRITICAL
+          type: string
+        detectedAt:
+          format: date-time
+          type: string
+        expectedIntervalSeconds:
+          example: 60
+          type: integer
+        currentSilenceDurationSeconds:
+          example: 720
+          type: integer
+        lastSignalAt:
+          format: date-time
+          type: string
+        lastSignalValue:
+          example: 42.5
+          type: number
+        estimatedCustomerImpact:
+          example: Roughly 480 payments/hour not being processed.
+          type: string
+        businessImpact:
+          example: Payments stop being processed; customers see failures.
+          type: string
+        probableCause:
+          description: AI-generated hypothesis for why the signal stopped.
+          example: Consumer pod likely OOMKilled; check pod restart count.
+          type: string
+        relatedIncidents:
+          example:
+          - INC-2050
+          items:
+            type: string
+          type: array
+        acknowledgedBy:
+          example: sre.oncall@forgesphere.example.com
+          type: string
+        acknowledgedAt:
+          format: date-time
+          type: string
+        resolvedBy:
+          type: string
+        resolvedAt:
+          format: date-time
+          type: string
+        rootCause:
+          type: string
+        reason:
+          type: string
+        auditReference:
+          example: audit://silent-detector/silence-a1b2c3d4
+          type: string
+      required:
+      - currentSilenceDurationSeconds
+      - detectedAt
+      - expectedIntervalSeconds
+      - monitorId
+      - serviceName
+      - severity
+      - silenceId
+      - status
+      type: object
+    SilenceList:
+      example:
+        summary:
+          warningCount: 1
+          oldestSilenceMinutes: 42
+          criticalCount: 2
+          totalActiveSilences: 3
+        size: 20
+        totalPages: 1
+        page: 0
+        content:
+        - severity: CRITICAL
+          reason: reason
+          auditReference: audit://silent-detector/silence-a1b2c3d4
+          monitorId: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+          resolvedAt: 2000-01-23T04:56:07.000+00:00
+          currentSilenceDurationSeconds: 720
+          monitorName: payment-queue-consumer-heartbeat
+          lastSignalValue: 42.5
+          relatedIncidents:
+          - INC-2050
+          resolvedBy: resolvedBy
+          businessImpact: Payments stop being processed; customers see failures.
+          acknowledgedBy: sre.oncall@forgesphere.example.com
+          silenceId: a1b2c3d4-e5f6-7890-1234-567890abcdef
+          serviceName: payment-processor
+          acknowledgedAt: 2000-01-23T04:56:07.000+00:00
+          environment: PRODUCTION
+          probableCause: Consumer pod likely OOMKilled; check pod restart count.
+          rootCause: rootCause
+          expectedIntervalSeconds: 60
+          lastSignalAt: 2000-01-23T04:56:07.000+00:00
+          detectedAt: 2000-01-23T04:56:07.000+00:00
+          estimatedCustomerImpact: Roughly 480 payments/hour not being processed.
+          status: DETECTED
+        - severity: CRITICAL
+          reason: reason
+          auditReference: audit://silent-detector/silence-a1b2c3d4
+          monitorId: 9c8f1a3b-6d7e-4a12-8f5e-123456789abc
+          resolvedAt: 2000-01-23T04:56:07.000+00:00
+          currentSilenceDurationSeconds: 720
+          monitorName: payment-queue-consumer-heartbeat
+          lastSignalValue: 42.5
+          relatedIncidents:
+          - INC-2050
+          resolvedBy: resolvedBy
+          businessImpact: Payments stop being processed; customers see failures.
+          acknowledgedBy: sre.oncall@forgesphere.example.com
+          silenceId: a1b2c3d4-e5f6-7890-1234-567890abcdef
+          serviceName: payment-processor
+          acknowledgedAt: 2000-01-23T04:56:07.000+00:00
+          environment: PRODUCTION
+          probableCause: Consumer pod likely OOMKilled; check pod restart count.
+          rootCause: rootCause
+          expectedIntervalSeconds: 60
+          lastSignalAt: 2000-01-23T04:56:07.000+00:00
+          detectedAt: 2000-01-23T04:56:07.000+00:00
+          estimatedCustomerImpact: Roughly 480 payments/hour not being processed.
+          status: DETECTED
+        totalElements: 3
+      properties:
+        content:
+          items:
+            $ref: "#/components/schemas/Silence"
+          type: array
+        totalElements:
+          example: 3
+          type: integer
+        totalPages:
+          example: 1
+          type: integer
+        page:
+          example: 0
+          type: integer
+        size:
+          example: 20
+          type: integer
+        summary:
+          $ref: "#/components/schemas/SilenceList_summary"
+      required:
+      - content
+      - totalElements
+      - totalPages
+      type: object
+    ErrorResponse:
+      properties:
+        status:
+          example: 409
+          type: integer
+        errorCode:
+          example: SILENCE_ALREADY_RESOLVED
+          type: string
+        message:
+          example: Silence has already been resolved and cannot be acknowledged.
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        path:
+          example: /v1/silences/a1b2c3d4/acknowledge
+          type: string
+        serviceTransactionId:
+          example: 523f52b2-64a5-465e-b245-3efbe78f70ae
+          type: string
+      required:
+      - message
+      - path
+      - status
+      - timestamp
+      type: object
+    registerMonitor_request_signalSource:
+      description: Where the signal comes from.
+      properties:
+        sourceType:
+          enum:
+          - PROMETHEUS
+          - DATADOG
+          - CLOUDWATCH
+          - KAFKA_LAG
+          - GCP_MONITORING
+          - CUSTOM_ENDPOINT
+          example: PROMETHEUS
+          type: string
+        identifier:
+          example: payment_queue_consumer_tick_total
+          type: string
+        query:
+          example: "rate(payment_queue_consumer_tick_total[5m])"
+          type: string
+      required:
+      - identifier
+      - sourceType
+      type: object
+    registerMonitor_request:
+      properties:
+        monitorName:
+          description: Human-readable name for this monitor.
+          example: payment-queue-consumer-heartbeat
+          type: string
+        serviceName:
+          description: Service being monitored.
+          example: payment-processor
+          type: string
+        environment:
+          description: Environment where the monitor runs.
+          enum:
+          - DEV
+          - STAGING
+          - PRODUCTION
+          example: PRODUCTION
+          type: string
+        signalType:
+          description: Type of signal expected.
+          enum:
+          - HEARTBEAT
+          - METRIC_UPDATE
+          - LOG_PATTERN
+          - QUEUE_CONSUMER_TICK
+          - SCHEDULED_JOB_COMPLETION
+          - BUSINESS_METRIC
+          - CUSTOM_WEBHOOK
+          example: QUEUE_CONSUMER_TICK
+          type: string
+        expectedInterval:
+          description: Expected interval between signals in seconds.
+          example: 60
+          type: integer
+        gracePeriod:
+          description: Extra seconds to wait before firing an alert.
+          example: 120
+          type: integer
+        signalSource:
+          $ref: "#/components/schemas/registerMonitor_request_signalSource"
+        severity:
+          default: CRITICAL
+          description: Severity of the alert if silence is detected.
+          enum:
+          - INFO
+          - WARNING
+          - CRITICAL
+          example: CRITICAL
+          type: string
+        owner:
+          description: Team responsible for this monitor.
+          example: payments-team
+          type: string
+        notifyChannels:
+          description: Channels to notify on silent failure.
+          example:
+          - SLACK
+          - PAGERDUTY
+          items:
+            enum:
+            - EMAIL
+            - SLACK
+            - PAGERDUTY
+            - WEBHOOK
+            type: string
+          type: array
+        businessImpact:
+          description: What breaks if this signal goes silent.
+          example: Payments stop being processed; customers see failures.
+          type: string
+      required:
+      - environment
+      - expectedInterval
+      - gracePeriod
+      - monitorName
+      - serviceName
+      - signalType
+      type: object
+    acknowledgeSilence_request:
+      properties:
+        action:
+          description: Action to take on the silence.
+          enum:
+          - ACKNOWLEDGE
+          - RESOLVE
+          - MARK_FALSE_POSITIVE
+          example: ACKNOWLEDGE
+          type: string
+        reason:
+          description: Reason for the action (min 15 chars).
+          example: Investigating — Kafka consumer group rebalanced unexpectedly.
+          minLength: 15
+          type: string
+        resolvedBy:
+          description: Engineer taking the action.
+          example: sre.oncall@forgesphere.example.com
+          type: string
+        rootCause:
+          description: Root cause if known (for RESOLVE action).
+          example: Consumer pod OOMKilled; restarted with higher memory limit.
+          type: string
+        notifyChannels:
+          description: Channels to notify of the state change.
+          example:
+          - SLACK
+          items:
+            enum:
+            - EMAIL
+            - SLACK
+            - PAGERDUTY
+            - WEBHOOK
+            type: string
+          type: array
+      required:
+      - action
+      - reason
+      type: object
+    SilenceList_summary:
+      example:
+        warningCount: 1
+        oldestSilenceMinutes: 42
+        criticalCount: 2
+        totalActiveSilences: 3
+      properties:
+        totalActiveSilences:
+          example: 3
+          type: integer
+        criticalCount:
+          example: 2
+          type: integer
+        warningCount:
+          example: 1
+          type: integer
+        oldestSilenceMinutes:
+          example: 42
+          type: integer
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      description: JWT token issued to engineers or on-call SREs.
+      scheme: bearer
+      type: http
