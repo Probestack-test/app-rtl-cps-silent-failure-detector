@@ -1,0 +1,723 @@
+{
+  "info" : {
+    "_postman_id" : "1aa92f7b-4908-48da-a670-1e21b5f1b1c4",
+    "name" : "Silent Failure Detector",
+    "description" : "Generated Postman collection for silent-failure-detector",
+    "schema" : "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable" : [ {
+    "key" : "baseUrl",
+    "value" : "http://localhost:8080",
+    "type" : "string"
+  }, {
+    "key" : "bearerToken",
+    "value" : "",
+    "type" : "string"
+  }, {
+    "key" : "resourceId",
+    "value" : "sample-id",
+    "type" : "string"
+  }, {
+    "key" : "clientId",
+    "value" : "generated-service-client",
+    "type" : "string"
+  }, {
+    "key" : "clientSecret",
+    "value" : "change-me",
+    "type" : "string"
+  }, {
+    "key" : "scope",
+    "value" : "api.read api.write",
+    "type" : "string"
+  } ],
+  "item" : [ {
+    "name" : "Health",
+    "item" : [ {
+      "name" : "Health",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/health",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "health" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/health",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "health" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Liveness",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/health/liveness",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "health", "liveness" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/health/liveness",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "health", "liveness" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Readiness",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/health/readiness",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "health", "readiness" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/health/readiness",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "health", "readiness" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Metrics",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/metrics",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "metrics" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/metrics",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "metrics" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    }, {
+      "name" : "Prometheus",
+      "request" : {
+        "auth" : {
+          "type" : "noauth"
+        },
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/actuator/prometheus",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "actuator", "prometheus" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "auth" : {
+            "type" : "noauth"
+          },
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/actuator/prometheus",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "actuator", "prometheus" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"status\" : \"UP\"\n}"
+      } ]
+    } ]
+  }, {
+    "name" : "Security",
+    "item" : [ {
+      "name" : "Get OAuth2 Token",
+      "request" : {
+        "auth" : {
+          "type" : "basic",
+          "basic" : [ {
+            "key" : "username",
+            "value" : "{{clientId}}",
+            "type" : "string"
+          }, {
+            "key" : "password",
+            "value" : "{{clientSecret}}",
+            "type" : "string"
+          } ]
+        },
+        "method" : "POST",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/x-www-form-urlencoded"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "body" : {
+          "mode" : "urlencoded",
+          "urlencoded" : [ {
+            "key" : "grant_type",
+            "value" : "client_credentials",
+            "type" : "text"
+          }, {
+            "key" : "scope",
+            "value" : "{{scope}}",
+            "type" : "text"
+          } ]
+        },
+        "url" : {
+          "raw" : "{{baseUrl}}/oauth2/token",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "oauth2", "token" ]
+        }
+      },
+      "event" : [ {
+        "listen" : "test",
+        "script" : {
+          "type" : "text/javascript",
+          "exec" : [ "const json = pm.response.json();", "if (json.access_token) {", "  pm.collectionVariables.set(\"bearerToken\", json.access_token);", "}" ]
+        }
+      } ]
+    } ]
+  }, {
+    "name" : "Monitors",
+    "item" : [ {
+      "name" : "Register a new silent failure monitor",
+      "request" : {
+        "method" : "POST",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/monitors",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "monitors" ]
+        },
+        "body" : {
+          "mode" : "raw",
+          "raw" : "{\n  \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n  \"serviceName\" : \"payment-processor\",\n  \"environment\" : \"PRODUCTION\",\n  \"signalType\" : \"QUEUE_CONSUMER_TICK\",\n  \"expectedInterval\" : 60,\n  \"gracePeriod\" : 120,\n  \"signalSource\" : {\n    \"sourceType\" : \"PROMETHEUS\",\n    \"identifier\" : \"payment_queue_consumer_tick_total\",\n    \"query\" : \"rate(payment_queue_consumer_tick_total[5m])\"\n  },\n  \"severity\" : \"CRITICAL\",\n  \"owner\" : \"payments-team\",\n  \"notifyChannels\" : [ \"SLACK\", \"PAGERDUTY\" ],\n  \"businessImpact\" : \"Payments stop being processed; customers see failures.\"\n}",
+          "options" : {
+            "raw" : {
+              "language" : "json"
+            }
+          }
+        }
+      },
+      "response" : [ {
+        "name" : "Created",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/monitors",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "monitors" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n  \"serviceName\" : \"payment-processor\",\n  \"environment\" : \"PRODUCTION\",\n  \"signalType\" : \"QUEUE_CONSUMER_TICK\",\n  \"expectedInterval\" : 60,\n  \"gracePeriod\" : 120,\n  \"signalSource\" : {\n    \"sourceType\" : \"PROMETHEUS\",\n    \"identifier\" : \"payment_queue_consumer_tick_total\",\n    \"query\" : \"rate(payment_queue_consumer_tick_total[5m])\"\n  },\n  \"severity\" : \"CRITICAL\",\n  \"owner\" : \"payments-team\",\n  \"notifyChannels\" : [ \"SLACK\", \"PAGERDUTY\" ],\n  \"businessImpact\" : \"Payments stop being processed; customers see failures.\"\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Created",
+        "code" : 201,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"monitorId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n  \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n  \"serviceName\" : \"payment-processor\",\n  \"environment\" : \"PRODUCTION\",\n  \"signalType\" : \"QUEUE_CONSUMER_TICK\",\n  \"expectedIntervalSeconds\" : 60,\n  \"gracePeriodSeconds\" : 120,\n  \"severity\" : \"CRITICAL\",\n  \"status\" : \"HEALTHY\",\n  \"owner\" : \"payments-team\",\n  \"businessImpact\" : \"Payments stop being processed; customers see failures.\",\n  \"notifyChannels\" : [ \"SLACK\", \"PAGERDUTY\" ],\n  \"lastSignalAt\" : 948603367000,\n  \"lastSignalValue\" : 42.5,\n  \"currentSilenceDurationSeconds\" : 0,\n  \"lifetimeSilencesDetected\" : 7,\n  \"createdAt\" : 948603367000,\n  \"updatedAt\" : 948603367000\n}"
+      }, {
+        "name" : "Bad Request",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/monitors",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "monitors" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n  \"serviceName\" : \"payment-processor\",\n  \"environment\" : \"PRODUCTION\",\n  \"signalType\" : \"QUEUE_CONSUMER_TICK\",\n  \"expectedInterval\" : 60,\n  \"gracePeriod\" : 120,\n  \"signalSource\" : {\n    \"sourceType\" : \"PROMETHEUS\",\n    \"identifier\" : \"payment_queue_consumer_tick_total\",\n    \"query\" : \"rate(payment_queue_consumer_tick_total[5m])\"\n  },\n  \"severity\" : \"CRITICAL\",\n  \"owner\" : \"payments-team\",\n  \"notifyChannels\" : [ \"SLACK\", \"PAGERDUTY\" ],\n  \"businessImpact\" : \"Payments stop being processed; customers see failures.\"\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Bad Request",
+        "code" : 400,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-05T15:10:32.909215657Z\",\n  \"status\" : 400,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    }, {
+      "name" : "Get the current status of a monitor",
+      "request" : {
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/monitors/9c8f1a3b-6d7e-4a12-8f5e-123456789abc",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "monitors", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc" ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/monitors/9c8f1a3b-6d7e-4a12-8f5e-123456789abc",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "monitors", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc" ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"monitorId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n  \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n  \"serviceName\" : \"payment-processor\",\n  \"environment\" : \"PRODUCTION\",\n  \"signalType\" : \"QUEUE_CONSUMER_TICK\",\n  \"expectedIntervalSeconds\" : 60,\n  \"gracePeriodSeconds\" : 120,\n  \"severity\" : \"CRITICAL\",\n  \"status\" : \"HEALTHY\",\n  \"owner\" : \"payments-team\",\n  \"businessImpact\" : \"Payments stop being processed; customers see failures.\",\n  \"notifyChannels\" : [ \"SLACK\", \"PAGERDUTY\" ],\n  \"lastSignalAt\" : 948603367000,\n  \"lastSignalValue\" : 42.5,\n  \"currentSilenceDurationSeconds\" : 0,\n  \"lifetimeSilencesDetected\" : 7,\n  \"createdAt\" : 948603367000,\n  \"updatedAt\" : 948603367000\n}"
+      }, {
+        "name" : "Not Found",
+        "originalRequest" : {
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/monitors/9c8f1a3b-6d7e-4a12-8f5e-123456789abc",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "monitors", "9c8f1a3b-6d7e-4a12-8f5e-123456789abc" ]
+          }
+        },
+        "status" : "Not Found",
+        "code" : 404,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-05T15:10:32.909591492Z\",\n  \"status\" : 404,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    } ]
+  }, {
+    "name" : "Silences",
+    "item" : [ {
+      "name" : "List all detected silent failures",
+      "request" : {
+        "method" : "GET",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/silences?status=DETECTED&severity=INFO&serviceName=payment-processor&environment=DEV&page=1&size=1",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "silences" ],
+          "query" : [ {
+            "key" : "status",
+            "value" : "DETECTED"
+          }, {
+            "key" : "severity",
+            "value" : "INFO"
+          }, {
+            "key" : "serviceName",
+            "value" : "payment-processor"
+          }, {
+            "key" : "environment",
+            "value" : "DEV"
+          }, {
+            "key" : "page",
+            "value" : 1
+          }, {
+            "key" : "size",
+            "value" : 1
+          } ]
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/silences?status=DETECTED&severity=INFO&serviceName=payment-processor&environment=DEV&page=1&size=1",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "silences" ],
+            "query" : [ {
+              "key" : "status",
+              "value" : "DETECTED"
+            }, {
+              "key" : "severity",
+              "value" : "INFO"
+            }, {
+              "key" : "serviceName",
+              "value" : "payment-processor"
+            }, {
+              "key" : "environment",
+              "value" : "DEV"
+            }, {
+              "key" : "page",
+              "value" : 1
+            }, {
+              "key" : "size",
+              "value" : 1
+            } ]
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"content\" : [ {\n    \"severity\" : \"CRITICAL\",\n    \"reason\" : \"reason\",\n    \"auditReference\" : \"audit://silent-detector/silence-a1b2c3d4\",\n    \"monitorId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n    \"resolvedAt\" : 948603367000,\n    \"currentSilenceDurationSeconds\" : 720,\n    \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n    \"lastSignalValue\" : 42.5,\n    \"relatedIncidents\" : [ \"INC-2050\" ],\n    \"resolvedBy\" : \"resolvedBy\",\n    \"businessImpact\" : \"Payments stop being processed; customers see failures.\",\n    \"acknowledgedBy\" : \"sre.oncall@forgesphere.example.com\",\n    \"silenceId\" : \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n    \"serviceName\" : \"payment-processor\",\n    \"acknowledgedAt\" : 948603367000,\n    \"environment\" : \"PRODUCTION\",\n    \"probableCause\" : \"Consumer pod likely OOMKilled; check pod restart count.\",\n    \"rootCause\" : \"rootCause\",\n    \"expectedIntervalSeconds\" : 60,\n    \"lastSignalAt\" : 948603367000,\n    \"detectedAt\" : 948603367000,\n    \"estimatedCustomerImpact\" : \"Roughly 480 payments/hour not being processed.\",\n    \"status\" : \"DETECTED\"\n  }, {\n    \"severity\" : \"CRITICAL\",\n    \"reason\" : \"reason\",\n    \"auditReference\" : \"audit://silent-detector/silence-a1b2c3d4\",\n    \"monitorId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n    \"resolvedAt\" : 948603367000,\n    \"currentSilenceDurationSeconds\" : 720,\n    \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n    \"lastSignalValue\" : 42.5,\n    \"relatedIncidents\" : [ \"INC-2050\" ],\n    \"resolvedBy\" : \"resolvedBy\",\n    \"businessImpact\" : \"Payments stop being processed; customers see failures.\",\n    \"acknowledgedBy\" : \"sre.oncall@forgesphere.example.com\",\n    \"silenceId\" : \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n    \"serviceName\" : \"payment-processor\",\n    \"acknowledgedAt\" : 948603367000,\n    \"environment\" : \"PRODUCTION\",\n    \"probableCause\" : \"Consumer pod likely OOMKilled; check pod restart count.\",\n    \"rootCause\" : \"rootCause\",\n    \"expectedIntervalSeconds\" : 60,\n    \"lastSignalAt\" : 948603367000,\n    \"detectedAt\" : 948603367000,\n    \"estimatedCustomerImpact\" : \"Roughly 480 payments/hour not being processed.\",\n    \"status\" : \"DETECTED\"\n  } ],\n  \"totalElements\" : 3,\n  \"totalPages\" : 1,\n  \"page\" : 0,\n  \"size\" : 20,\n  \"summary\" : {\n    \"warningCount\" : 1,\n    \"oldestSilenceMinutes\" : 42,\n    \"criticalCount\" : 2,\n    \"totalActiveSilences\" : 3\n  }\n}"
+      }, {
+        "name" : "Bad Request",
+        "originalRequest" : {
+          "method" : "GET",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/silences?status=DETECTED&severity=INFO&serviceName=payment-processor&environment=DEV&page=1&size=1",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "silences" ],
+            "query" : [ {
+              "key" : "status",
+              "value" : "DETECTED"
+            }, {
+              "key" : "severity",
+              "value" : "INFO"
+            }, {
+              "key" : "serviceName",
+              "value" : "payment-processor"
+            }, {
+              "key" : "environment",
+              "value" : "DEV"
+            }, {
+              "key" : "page",
+              "value" : 1
+            }, {
+              "key" : "size",
+              "value" : 1
+            } ]
+          }
+        },
+        "status" : "Bad Request",
+        "code" : 400,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-05T15:10:32.910066423Z\",\n  \"status\" : 400,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    }, {
+      "name" : "Acknowledge or resolve a detected silence",
+      "request" : {
+        "method" : "POST",
+        "header" : [ {
+          "key" : "Authorization",
+          "value" : "Bearer {{bearerToken}}"
+        }, {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        }, {
+          "key" : "Accept",
+          "value" : "application/json"
+        } ],
+        "url" : {
+          "raw" : "{{baseUrl}}/silences/a1b2c3d4-e5f6-7890-1234-567890abcdef/acknowledge",
+          "host" : [ "{{baseUrl}}" ],
+          "path" : [ "silences", "a1b2c3d4-e5f6-7890-1234-567890abcdef", "acknowledge" ]
+        },
+        "body" : {
+          "mode" : "raw",
+          "raw" : "{\n  \"action\" : \"ACKNOWLEDGE\",\n  \"reason\" : \"Investigating — Kafka consumer group rebalanced unexpectedly.\",\n  \"resolvedBy\" : \"sre.oncall@forgesphere.example.com\",\n  \"rootCause\" : \"Consumer pod OOMKilled; restarted with higher memory limit.\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+          "options" : {
+            "raw" : {
+              "language" : "json"
+            }
+          }
+        }
+      },
+      "response" : [ {
+        "name" : "OK",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/silences/a1b2c3d4-e5f6-7890-1234-567890abcdef/acknowledge",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "silences", "a1b2c3d4-e5f6-7890-1234-567890abcdef", "acknowledge" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"action\" : \"ACKNOWLEDGE\",\n  \"reason\" : \"Investigating — Kafka consumer group rebalanced unexpectedly.\",\n  \"resolvedBy\" : \"sre.oncall@forgesphere.example.com\",\n  \"rootCause\" : \"Consumer pod OOMKilled; restarted with higher memory limit.\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "OK",
+        "code" : 200,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"silenceId\" : \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n  \"monitorId\" : \"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\n  \"monitorName\" : \"payment-queue-consumer-heartbeat\",\n  \"serviceName\" : \"payment-processor\",\n  \"environment\" : \"PRODUCTION\",\n  \"status\" : \"DETECTED\",\n  \"severity\" : \"CRITICAL\",\n  \"detectedAt\" : 948603367000,\n  \"expectedIntervalSeconds\" : 60,\n  \"currentSilenceDurationSeconds\" : 720,\n  \"lastSignalAt\" : 948603367000,\n  \"lastSignalValue\" : 42.5,\n  \"estimatedCustomerImpact\" : \"Roughly 480 payments/hour not being processed.\",\n  \"businessImpact\" : \"Payments stop being processed; customers see failures.\",\n  \"probableCause\" : \"Consumer pod likely OOMKilled; check pod restart count.\",\n  \"relatedIncidents\" : [ \"INC-2050\" ],\n  \"acknowledgedBy\" : \"sre.oncall@forgesphere.example.com\",\n  \"acknowledgedAt\" : 948603367000,\n  \"resolvedBy\" : \"resolvedBy\",\n  \"resolvedAt\" : 948603367000,\n  \"rootCause\" : \"rootCause\",\n  \"reason\" : \"reason\",\n  \"auditReference\" : \"audit://silent-detector/silence-a1b2c3d4\"\n}"
+      }, {
+        "name" : "Bad Request",
+        "originalRequest" : {
+          "method" : "POST",
+          "header" : [ {
+            "key" : "Authorization",
+            "value" : "Bearer {{bearerToken}}"
+          }, {
+            "key" : "Content-Type",
+            "value" : "application/json"
+          }, {
+            "key" : "Accept",
+            "value" : "application/json"
+          } ],
+          "url" : {
+            "raw" : "{{baseUrl}}/silences/a1b2c3d4-e5f6-7890-1234-567890abcdef/acknowledge",
+            "host" : [ "{{baseUrl}}" ],
+            "path" : [ "silences", "a1b2c3d4-e5f6-7890-1234-567890abcdef", "acknowledge" ]
+          },
+          "body" : {
+            "mode" : "raw",
+            "raw" : "{\n  \"action\" : \"ACKNOWLEDGE\",\n  \"reason\" : \"Investigating — Kafka consumer group rebalanced unexpectedly.\",\n  \"resolvedBy\" : \"sre.oncall@forgesphere.example.com\",\n  \"rootCause\" : \"Consumer pod OOMKilled; restarted with higher memory limit.\",\n  \"notifyChannels\" : [ \"SLACK\" ]\n}",
+            "options" : {
+              "raw" : {
+                "language" : "json"
+              }
+            }
+          }
+        },
+        "status" : "Bad Request",
+        "code" : 400,
+        "_postman_previewlanguage" : "json",
+        "header" : [ {
+          "key" : "Content-Type",
+          "value" : "application/json"
+        } ],
+        "cookie" : [ ],
+        "body" : "{\n  \"timestamp\" : \"2026-10-05T15:10:32.910364281Z\",\n  \"status\" : 400,\n  \"code\" : \"request_failed\",\n  \"userMessage\" : \"Request failed\",\n  \"systemMessage\" : \"Sample error for documentation purposes\",\n  \"path\" : \"{{baseUrl}}\",\n  \"correlationId\" : \"sample-correlation-id\"\n}"
+      } ]
+    } ]
+  } ]
+}

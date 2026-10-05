@@ -1,0 +1,98 @@
+{
+  "artifactId" : "silent-failure-detector",
+  "resourceId" : "6ac3ba552fadbb6a58d3d9a9",
+  "generatedAt" : "2026-10-05T15:10:33.680983559Z",
+  "mock" : {
+    "id" : "1212f0aa-acbf-4808-966e-9a0a29a17cf6",
+    "microserviceId" : null,
+    "specMetadataId" : "6ac3bb9123399e0b2ec69f4a",
+    "apiSpecName" : "Silent Failure Detector",
+    "name" : "mock-silent-failure-detector",
+    "mockServiceName" : "mock-silent-failure-detector",
+    "mockServerUrl" : "https://forgesphere.probestack.io/mock-api/v1/api/mocks/mock-7a1224d1",
+    "mockUrl" : "mock-7a1224d1",
+    "isPrivate" : false,
+    "delayMs" : 0,
+    "responseLatencyMs" : 0,
+    "requestCount" : 0,
+    "createdAt" : "2026-10-05T15:01:01.758Z",
+    "updatedAt" : "2026-10-05T15:01:01.771Z"
+  },
+  "endpoints" : [ {
+    "id" : "088ffbd4-166f-404c-b098-cd8635b8ff4b",
+    "isActive" : true,
+    "request" : {
+      "method" : "POST",
+      "path" : "/monitors",
+      "bodySample" : "{\"monitorName\":\"payment-queue-consumer-heartbeat\",\"serviceName\":\"payment-processor\",\"environment\":\"PRODUCTION\",\"signalType\":\"QUEUE_CONSUMER_TICK\",\"expectedInterval\":60,\"gracePeriod\":120,\"signalSource\":{\"sourceType\":\"PROMETHEUS\",\"identifier\":\"payment_queue_consumer_tick_total\",\"query\":\"rate(payment_queue_consumer_tick_total[5m])\"},\"severity\":\"CRITICAL\",\"owner\":\"payments-team\",\"notifyChannels\":[\"SLACK\",\"PAGERDUTY\"],\"businessImpact\":\"Payments stop being processed; customers see failures.\"}",
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 201,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"monitorId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"monitorName\":\"payment-queue-consumer-heartbeat\",\"serviceName\":\"payment-processor\",\"environment\":\"PRODUCTION\",\"signalType\":\"QUEUE_CONSUMER_TICK\",\"expectedIntervalSeconds\":60,\"gracePeriodSeconds\":120,\"severity\":\"CRITICAL\",\"status\":\"HEALTHY\",\"owner\":\"payments-team\",\"businessImpact\":\"Payments stop being processed; customers see failures.\",\"notifyChannels\":[\"SLACK\",\"PAGERDUTY\"],\"lastSignalAt\":\"2024-01-01T00:00:00Z\",\"lastSignalValue\":42.5,\"currentSilenceDurationSeconds\":0,\"lifetimeSilencesDetected\":7,\"createdAt\":\"2024-01-01T00:00:00Z\",\"updatedAt\":\"2024-01-01T00:00:00Z\"}",
+      "delayMs" : 0
+    }
+  }, {
+    "id" : "4cd6a890-0371-4cef-91b2-227796a973bd",
+    "isActive" : true,
+    "request" : {
+      "method" : "GET",
+      "path" : "/monitors/{monitorId}",
+      "bodySample" : null,
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 200,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"monitorId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"monitorName\":\"payment-queue-consumer-heartbeat\",\"serviceName\":\"payment-processor\",\"environment\":\"PRODUCTION\",\"signalType\":\"QUEUE_CONSUMER_TICK\",\"expectedIntervalSeconds\":60,\"gracePeriodSeconds\":120,\"severity\":\"CRITICAL\",\"status\":\"HEALTHY\",\"owner\":\"payments-team\",\"businessImpact\":\"Payments stop being processed; customers see failures.\",\"notifyChannels\":[\"SLACK\",\"PAGERDUTY\"],\"lastSignalAt\":\"2024-01-01T00:00:00Z\",\"lastSignalValue\":42.5,\"currentSilenceDurationSeconds\":0,\"lifetimeSilencesDetected\":7,\"createdAt\":\"2024-01-01T00:00:00Z\",\"updatedAt\":\"2024-01-01T00:00:00Z\"}",
+      "delayMs" : 0
+    }
+  }, {
+    "id" : "0f6054ca-8e6e-4b40-89da-479daaf2e07d",
+    "isActive" : true,
+    "request" : {
+      "method" : "GET",
+      "path" : "/silences",
+      "bodySample" : null,
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 200,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"content\":[{\"silenceId\":\"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\"monitorId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"monitorName\":\"payment-queue-consumer-heartbeat\",\"serviceName\":\"payment-processor\",\"environment\":\"PRODUCTION\",\"status\":\"DETECTED\",\"severity\":\"CRITICAL\",\"detectedAt\":\"2024-01-01T00:00:00Z\",\"expectedIntervalSeconds\":60,\"currentSilenceDurationSeconds\":720,\"lastSignalAt\":\"2024-01-01T00:00:00Z\",\"lastSignalValue\":42.5,\"estimatedCustomerImpact\":\"Roughly 480 payments/hour not being processed.\",\"businessImpact\":\"Payments stop being processed; customers see failures.\",\"probableCause\":\"Consumer pod likely OOMKilled; check pod restart count.\",\"relatedIncidents\":[\"INC-2050\"],\"acknowledgedBy\":\"sre.oncall@forgesphere.example.com\",\"acknowledgedAt\":\"2024-01-01T00:00:00Z\",\"resolvedBy\":\"string\",\"resolvedAt\":\"2024-01-01T00:00:00Z\",\"rootCause\":\"string\",\"reason\":\"string\",\"auditReference\":\"audit://silent-detector/silence-a1b2c3d4\"}],\"totalElements\":3,\"totalPages\":1,\"page\":0,\"size\":20,\"summary\":{\"totalActiveSilences\":3,\"criticalCount\":2,\"warningCount\":1,\"oldestSilenceMinutes\":42}}",
+      "delayMs" : 0
+    }
+  }, {
+    "id" : "408b7b29-12fb-43b5-8d53-e199f1098cf2",
+    "isActive" : true,
+    "request" : {
+      "method" : "POST",
+      "path" : "/silences/{silenceId}/acknowledge",
+      "bodySample" : "{\"action\":\"ACKNOWLEDGE\",\"reason\":\"Investigating — Kafka consumer group rebalanced unexpectedly.\",\"resolvedBy\":\"sre.oncall@forgesphere.example.com\",\"rootCause\":\"Consumer pod OOMKilled; restarted with higher memory limit.\",\"notifyChannels\":[\"SLACK\"]}",
+      "validationMode" : "NONE",
+      "validationSchema" : null,
+      "validateMethod" : true
+    },
+    "response" : {
+      "status" : 200,
+      "headers" : {
+        "Content-Type" : "application/json"
+      },
+      "body" : "{\"silenceId\":\"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\"monitorId\":\"9c8f1a3b-6d7e-4a12-8f5e-123456789abc\",\"monitorName\":\"payment-queue-consumer-heartbeat\",\"serviceName\":\"payment-processor\",\"environment\":\"PRODUCTION\",\"status\":\"DETECTED\",\"severity\":\"CRITICAL\",\"detectedAt\":\"2024-01-01T00:00:00Z\",\"expectedIntervalSeconds\":60,\"currentSilenceDurationSeconds\":720,\"lastSignalAt\":\"2024-01-01T00:00:00Z\",\"lastSignalValue\":42.5,\"estimatedCustomerImpact\":\"Roughly 480 payments/hour not being processed.\",\"businessImpact\":\"Payments stop being processed; customers see failures.\",\"probableCause\":\"Consumer pod likely OOMKilled; check pod restart count.\",\"relatedIncidents\":[\"INC-2050\"],\"acknowledgedBy\":\"sre.oncall@forgesphere.example.com\",\"acknowledgedAt\":\"2024-01-01T00:00:00Z\",\"resolvedBy\":\"string\",\"resolvedAt\":\"2024-01-01T00:00:00Z\",\"rootCause\":\"string\",\"reason\":\"string\",\"auditReference\":\"audit://silent-detector/silence-a1b2c3d4\"}",
+      "delayMs" : 0
+    }
+  } ]
+}

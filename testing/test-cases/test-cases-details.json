@@ -1,0 +1,162 @@
+{
+  "artifactId" : "silent-failure-detector",
+  "generatedAt" : "2026-10-05T15:10:33.928782008Z",
+  "testCaseCount" : 13,
+  "testCases" : [ {
+    "category" : "Positive",
+    "name" : "[POSITIVE] POST /monitors",
+    "description" : "Happy path: valid request should return 201",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/monitors",
+      "path" : [ "monitors" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 201\", function() { if(pm.response.code !== 201) throw new Error(\"Expected 201 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Positive",
+    "name" : "[POSITIVE] GET /monitors/{monitorId}",
+    "description" : "Happy path: valid request should return 200",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/monitors/{monitorId}",
+      "path" : [ "monitors", "{monitorId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 200\", function() { if(pm.response.code !== 200) throw new Error(\"Expected 200 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Positive",
+    "name" : "[POSITIVE] GET /silences",
+    "description" : "Happy path: valid request should return 200",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/silences",
+      "path" : [ "silences" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 200\", function() { if(pm.response.code !== 200) throw new Error(\"Expected 200 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Positive",
+    "name" : "[POSITIVE] POST /silences/{silenceId}/acknowledge",
+    "description" : "Happy path: valid request should return 200",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/silences/{silenceId}/acknowledge",
+      "path" : [ "silences", "{silenceId}", "acknowledge" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 200\", function() { if(pm.response.code !== 200) throw new Error(\"Expected 200 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] GET /monitors/{monitorId}",
+    "description" : "Missing required path parameter: monitorId",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/monitors/{monitorId}",
+      "path" : [ "monitors", "{monitorId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] GET /monitors/{monitorId}",
+    "description" : "Invalid type for parameter monitorId (expected string)",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/monitors/{monitorId}",
+      "path" : [ "monitors", "{monitorId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] GET /silences",
+    "description" : "Invalid type for parameter status (expected string)",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/silences",
+      "path" : [ "silences" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] POST /silences/{silenceId}/acknowledge",
+    "description" : "Missing required path parameter: silenceId",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/silences/{silenceId}/acknowledge",
+      "path" : [ "silences", "{silenceId}", "acknowledge" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Negative",
+    "name" : "[NEGATIVE] POST /silences/{silenceId}/acknowledge",
+    "description" : "Invalid type for parameter silenceId (expected string)",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/silences/{silenceId}/acknowledge",
+      "path" : [ "silences", "{silenceId}", "acknowledge" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Status code is 400\", function() { if(pm.response.code !== 400) throw new Error(\"Expected 400 but got \" + pm.response.code); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] POST /monitors",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/monitors",
+      "path" : [ "monitors" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] GET /monitors/{monitorId}",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/monitors/{monitorId}",
+      "path" : [ "monitors", "{monitorId}" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] GET /silences",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "GET",
+      "url" : "{{baseUrl}}/silences",
+      "path" : [ "silences" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  }, {
+    "category" : "Performance",
+    "name" : "[PERFORMANCE] POST /silences/{silenceId}/acknowledge",
+    "description" : "Performance: response time should be < 2000ms",
+    "request" : {
+      "method" : "POST",
+      "url" : "{{baseUrl}}/silences/{silenceId}/acknowledge",
+      "path" : [ "silences", "{silenceId}", "acknowledge" ],
+      "headers" : { },
+      "body" : null
+    },
+    "assertions" : [ "pm.test(\"Response time < 2000 ms\", function() { if(pm.response.responseTime > 2000) throw new Error(\"Response time \" + pm.response.responseTime + \"ms exceeds 2000ms\"); });" ]
+  } ]
+}
